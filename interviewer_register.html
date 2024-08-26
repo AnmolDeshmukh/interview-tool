@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interviewer Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Interviewer Registration</h1>
+        <form onsubmit="registerInterviewer(event)">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="number" placeholder="Contact Number" required>
+            <input type="text" id="rate" placeholder="Rate of Interview ($/hr)" required>
+            <input type="date" id="dates_available" required>
+            <input type="time" id="time_available" required>
+            <input type="text" id="skills" placeholder="Skills (e.g. Python, Data Science)" required>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="interviewer_login.html">Login here</a>.</p>
+    </div>
+
+    <script>
+        function registerInterviewer(event) {
+            event.preventDefault();
+
+            const interviewer = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                number: document.getElementById('number').value,
+                rate: document.getElementById('rate').value,
+                dates_available: document.getElementById('dates_available').value,
+                time_available: document.getElementById('time_available').value,
+                skills: document.getElementById('skills').value
+            };
+
+            let interviewers = JSON.parse(localStorage.getItem('interviewers')) || [];
+            interviewers.push(interviewer);
+            localStorage.setItem('interviewers', JSON.stringify(interviewers));
+
+            alert("Registration successful!");
+            window.location.href = "interviewer_login.html";
+        }
+    </script>
+</body>
+</html>

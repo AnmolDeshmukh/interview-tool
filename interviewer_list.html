@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matched Interviewers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="jobTitle">Interviewers for [Job Name]</h1>
+        </header>
+
+        <section id="matchedInterviewers">
+            <h2>Matched Interviewers</h2>
+            <table id="matchedInterviewerTable">
+                <thead>
+                    <tr>
+                        <th>Interviewer Name</th>
+                        <th>Rate</th>
+                        <th>Skills</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="matchedInterviewerList">
+                    <!-- Matched interviewer rows will be appended here -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        function displayMatchedInterviewers() {
+            // Get job data for all companies
+            let company1Jobs = JSON.parse(localStorage.getItem('company1Jobs')) || [];
+            let company2Jobs = JSON.parse(localStorage.getItem('company2Jobs')) || [];
+            let company3Jobs = JSON.parse(localStorage.getItem('company3Jobs')) || [];
+            let interviewers = JSON.parse(localStorage.getItem('interviewers')) || [];
+            
+            const jobIndex = localStorage.getItem('selectedJobIndex');
+            const selectedCompany = localStorage.getItem('selectedCompany'); // Track which company is selected
+
+            let job;
+            if (selectedCompany === 'company1') {
+                job = company1Jobs[jobIndex];
+            } else if (selectedCompany === 'company2') {
+                job = company2Jobs[jobIndex];
+            } else if (selectedCompany === 'company3') {
+                job = company3Jobs[jobIndex];
+            }
+
+            if (!job) {
+                alert("Job not found or invalid company selection.");
+                return;
+            }
+
+            // Set job title
+            document.getElementById('jobTitle').innerText = `Interviewers for ${job.jobName}`;
+
+            // Extract required skills and split them into an array of lowercase trimmed words
+            const jobSkills = job.skillsRequired.toLowerCase().split(',').map(skill => skill.trim());
+
+            // Clear the table before adding rows
+            const matchedInterviewerTableBody = document.getElementById('matchedInterviewerList');
+            matchedInterviewerTableBody.innerHTML = '';
+
+            // Check each interviewer to see if they match the required skills
+            interviewers.forEach((interviewer) => {
+                const interviewerSkills = interviewer.skills.toLowerCase().split(',').map(skill => skill.trim());
+
+                // Find at least one common skill
+                const isMatch = jobSkills.some(jobSkill => interviewerSkills.includes(jobSkill));
+
+                if (isMatch) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${interviewer.name}</td>
+                        <td>${interviewer.rate}/hr</td>
+                        <td>${interviewer.skills}</td>
+                        <td><button onclick="contactInterviewer('${interviewer.name}')">Contact this interviewer</button></td>
+                    `;
+                    matchedInterviewerTableBody.appendChild(row);
+                }
+            });
+
+            if (matchedInterviewerTableBody.innerHTML === '') {
+                matchedInterviewerTableBody.innerHTML = "<tr><td colspan='4'>No interviewers match the required skills.</td></tr>";
+            }
+        }
+
+        function contactInterviewer(name) {
+            alert(`Contacted interviewer ${name}`);
+        }
+
+        window.onload = function() {
+            displayMatchedInterviewers();
+        };
+    </script>
+</body>
+</html>

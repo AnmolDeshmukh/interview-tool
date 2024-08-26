@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interviewer Enrollment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Interviewer Enrollment</h1>
+        <form onsubmit="enrollInterviewer(event)">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="number" placeholder="Contact Number" required>
+            <input type="text" id="rate" placeholder="Rate of Interview ($/hr)" required>
+            <input type="date" id="dates_available" required>
+            <input type="time" id="time_available" required>
+            <button type="submit">Enroll</button>
+        </form>
+    </div>
+
+    <script>
+        function enrollInterviewer(event) {
+            event.preventDefault();
+
+            const interviewer = {
+                name: document.getElementById('name').value,
+                number: document.getElementById('number').value,
+                rate: document.getElementById('rate').value,
+                dates_available: document.getElementById('dates_available').value,
+                time_available: document.getElementById('time_available').value
+            };
+
+            let interviewers = JSON.parse(localStorage.getItem('interviewers')) || [];
+            interviewers.push(interviewer);
+            localStorage.setItem('interviewers', JSON.stringify(interviewers));
+
+            alert("You have successfully enrolled!");
+            window.location.href = "interviewer_jobs.html";
+        }
+    </script>
+</body>
+</html>
