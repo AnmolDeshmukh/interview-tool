@@ -39,6 +39,7 @@
                         <th>Interviewer Name</th>
                         <th>Rate</th>
                         <th>Skills</th>
+                        <th>Availability</th> <!-- Added Availability Column -->
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -111,7 +112,7 @@
             interviewerTableBody.innerHTML = '';  // Clear the table before adding rows
 
             if (interviewers.length === 0) {
-                interviewerTableBody.innerHTML = "<tr><td colspan='4'>No interviewers available yet.</td></tr>";
+                interviewerTableBody.innerHTML = "<tr><td colspan='5'>No interviewers available yet.</td></tr>";
             } else {
                 interviewers.forEach((interviewer) => {
                     const row = document.createElement('tr');
@@ -119,6 +120,7 @@
                         <td>${interviewer.name}</td>
                         <td>${interviewer.rate}/hr</td>
                         <td>${interviewer.skills}</td>
+                        <td>${interviewer.availability}</td> <!-- Added Availability Field -->
                         <td><button onclick="contactInterviewer('${interviewer.name}')">Contact this interviewer</button></td>
                     `;
                     interviewerTableBody.appendChild(row);
@@ -127,10 +129,10 @@
         }
 
         function getInterviewer(jobIndex) {
-    localStorage.setItem('selectedJobIndex', jobIndex);
-    localStorage.setItem('selectedCompany', 'company2'); // For company2.html
-    window.location.href = 'interviewer_list.html';
-}
+            localStorage.setItem('selectedJobIndex', jobIndex);
+            localStorage.setItem('selectedCompany', 'company2'); // For company2.html
+            window.location.href = 'interviewer_list.html';
+        }
 
         function contactInterviewer(name) {
             alert(`Contacted interviewer ${name}`);

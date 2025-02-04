@@ -15,8 +15,15 @@
             <input type="password" id="password" placeholder="Password" required>
             <input type="text" id="number" placeholder="Contact Number" required>
             <input type="text" id="rate" placeholder="Rate of Interview ($/hr)" required>
-            <input type="date" id="dates_available" required>
-            <input type="time" id="time_available" required>
+
+            <div id="availabilitySection">
+                <h3>Availability</h3>
+                <div id="availabilitySlots">
+                    <!-- Time slots will be dynamically added here -->
+                </div>
+                <button type="button" onclick="addTimeSlot()">Add Availability Slot</button>
+            </div>
+
             <input type="text" id="skills" placeholder="Skills (e.g. Python, Data Science)" required>
             <button type="submit">Register</button>
         </form>
@@ -24,18 +31,62 @@
     </div>
 
     <script>
+        // Function to dynamically add time slots for availability
+        function addTimeSlot() {
+            const availabilitySlots = document.getElementById('availabilitySlots');
+            const slotDiv = document.createElement('div');
+            slotDiv.classList.add('availabilitySlot');
+            slotDiv.innerHTML = `
+                <select class="dayOfWeek">
+                    <option value="Mon">Monday</option>
+                    <option value="Tue">Tuesday</option>
+                    <option value="Wed">Wednesday</option>
+                    <option value="Thu">Thursday</option>
+                    <option value="Fri">Friday</option>
+                    <option value="Sat">Saturday</option>
+                    <option value="Sun">Sunday</option>
+                </select>
+                <input type="time" class="startTime" required>
+                <input type="time" class="endTime" required>
+                <button type="button" onclick="removeTimeSlot(this)">Remove</button>
+            `;
+            availabilitySlots.appendChild(slotDiv);
+        }
+
+        // Function to remove a specific time slot
+        function removeTimeSlot(button) {
+            const slotDiv = button.parentElement;
+            slotDiv.remove();
+        }
+
         function registerInterviewer(event) {
             event.preventDefault();
 
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const number = document.getElementById('number').value;
+            const rate = document.getElementById('rate').value;
+            const skills = document.getElementById('skills').value;
+
+            // Collect availability slots
+            const availability = [];
+            const slots = document.querySelectorAll('.availabilitySlot');
+            slots.forEach(slot => {
+                const dayOfWeek = slot.querySelector('.dayOfWeek').value;
+                const startTime = slot.querySelector('.startTime').value;
+                const endTime = slot.querySelector('.endTime').value;
+                availability.push(`${dayOfWeek} (${startTime} - ${endTime})`);
+            });
+
             const interviewer = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                number: document.getElementById('number').value,
-                rate: document.getElementById('rate').value,
-                dates_available: document.getElementById('dates_available').value,
-                time_available: document.getElementById('time_available').value,
-                skills: document.getElementById('skills').value
+                name,
+                email,
+                password,
+                number,
+                rate,
+                availability: availability.join(', '),
+                skills
             };
 
             let interviewers = JSON.parse(localStorage.getItem('interviewers')) || [];

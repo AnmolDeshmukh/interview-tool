@@ -20,6 +20,7 @@
                         <th>Interviewer Name</th>
                         <th>Rate</th>
                         <th>Skills</th>
+                        <th>Availability</th> <!-- Added Availability Column -->
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -78,6 +79,7 @@
                         <td>${interviewer.name}</td>
                         <td>${interviewer.rate}/hr</td>
                         <td>${interviewer.skills}</td>
+                        <td>${interviewer.availability}</td> <!-- Displaying availability -->
                         <td><button onclick="contactInterviewer('${interviewer.name}')">Contact this interviewer</button></td>
                     `;
                     matchedInterviewerTableBody.appendChild(row);
@@ -85,7 +87,7 @@
             });
 
             if (matchedInterviewerTableBody.innerHTML === '') {
-                matchedInterviewerTableBody.innerHTML = "<tr><td colspan='4'>No interviewers match the required skills.</td></tr>";
+                matchedInterviewerTableBody.innerHTML = "<tr><td colspan='5'>No interviewers match the required skills.</td></tr>";
             }
         }
 
