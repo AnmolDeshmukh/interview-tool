@@ -1,7 +1,3 @@
-Here is a draft README for the repository [AnmolDeshmukh/interview-tool](https://github.com/AnmolDeshmukh/interview-tool):
-
----
-
 # Interview Tool
 
 A web-based tool designed to streamline and enhance the interview process.
@@ -62,7 +58,3 @@ We welcome contributions to enhance the Interview Tool. Please follow these step
 ## License
 
 This project does not have a license. You may add one as per your preference.
-
----
-
-Feel free to modify and enhance the README as needed.
