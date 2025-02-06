@@ -34,7 +34,7 @@ To get started with the Interview Tool, follow these steps:
 
 ## Usage
 
-Open the `index.html` file in your web browser to start using the Interview Tool.
+Open the `localhost:3000` file in your web browser to start using the Interview Tool.
 
 ## Contributing
 
